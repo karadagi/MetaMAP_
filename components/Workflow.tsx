@@ -21,12 +21,7 @@ const steps = [
     icon: Cuboid,
     color: 'indigo'
   },
-  {
-    title: 'Run Analysis',
-    description: 'Plug your clean geometry into Ladybug, Honeybee, or Eddy3D for instant environmental feedback.',
-    icon: BarChart3,
-    color: 'emerald'
-  }
+
 ];
 
 export const Workflow: React.FC = () => {
@@ -38,6 +33,10 @@ export const Workflow: React.FC = () => {
         <div className="text-center mb-20">
           <h2 className="text-4xl font-extrabold text-neutral-900 mb-4 tracking-tight">Seamless Integration</h2>
           <p className="text-neutral-500 max-w-2xl mx-auto text-lg">Automate the boring stuff. Focus on your design exploration.</p>
+        </div>
+
+        <div className="flex justify-center mb-16">
+          <img src={import.meta.env.BASE_URL + "workflowfull.jpeg"} alt="Workflow Diagram" className="rounded-[32px] shadow-sm border border-neutral-100 max-w-full" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -64,50 +63,34 @@ export const Workflow: React.FC = () => {
             ))}
           </div>
 
-          <div className="relative aspect-square bg-neutral-50 rounded-[48px] overflow-hidden border border-neutral-100 flex items-center justify-center p-12 shadow-inner">
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.03] to-transparent" />
-            
+          <div className="relative aspect-square flex items-center justify-center p-12">
+
+
             <div className="relative w-full h-full flex flex-col items-center justify-center space-y-8">
               {activeStep === 0 && (
-                <div className="text-center animate-in fade-in zoom-in duration-500">
-                  <div className="w-40 h-40 rounded-full border-4 border-dashed border-emerald-200 flex items-center justify-center mb-8 bg-white shadow-xl">
+                <div className="text-center animate-in fade-in zoom-in duration-500 relative w-full h-full flex flex-col items-center justify-center">
+                  <div className="absolute inset-0 z-0 opacity-80">
+                    <img src={import.meta.env.BASE_URL + "fetch.png"} alt="Background" className="w-full h-full object-contain" />
+                  </div>
+                  <div className="w-40 h-40 rounded-full border-4 border-dashed border-emerald-200 flex items-center justify-center mb-8 bg-white shadow-xl relative z-10">
                     <MapPin className="text-emerald-600 w-16 h-16" />
                   </div>
-                  <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-neutral-100 font-mono text-sm text-neutral-600">
-                    40.7128° N, 74.0060° W
+                  <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-neutral-100 font-mono text-sm text-neutral-600 relative z-10">
+                    33.7756° N, 84.3963° W
                   </div>
                 </div>
               )}
               {activeStep === 1 && (
-                <div className="w-full max-w-xs space-y-6 animate-in slide-in-from-bottom-8 duration-500">
-                  <div className="h-3 bg-neutral-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-500 w-[85%] animate-pulse" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    {[1,2,3,4].map(i => (
-                      <div key={i} className="h-16 bg-white rounded-2xl shadow-sm border border-neutral-100 flex items-center justify-center">
-                        <div className="w-8 h-1 bg-neutral-100 rounded-full" />
-                      </div>
-                    ))}
-                  </div>
+                <div className="w-full h-full flex items-center justify-center animate-in slide-in-from-bottom-8 duration-500 p-8">
+                  <img src={import.meta.env.BASE_URL + "fetch_data.jpeg"} alt="Fetch Data" className="w-full h-full object-contain rounded-2xl shadow-md border border-neutral-100" />
                 </div>
               )}
               {activeStep === 2 && (
-                <div className="grid grid-cols-3 gap-6 animate-in zoom-in duration-500">
-                  {[1,2,3,4,5,6,7,8,9].map(i => (
-                    <div key={i} className="w-20 h-20 bg-white shadow-lg border border-neutral-100 rounded-2xl rotate-3 flex items-center justify-center">
-                      <Cuboid className="text-emerald-500/30 w-10 h-10" />
-                    </div>
-                  ))}
+                <div className="w-full h-full flex items-center justify-center animate-in zoom-in duration-500 p-8">
+                  <img src={import.meta.env.BASE_URL + "generate_buildings.jpeg"} alt="Generate B-Reps" className="w-full h-full object-contain rounded-2xl shadow-md border border-neutral-100" />
                 </div>
               )}
-              {activeStep === 3 && (
-                <div className="w-full flex items-end justify-center space-x-3 animate-in slide-in-from-right-8 duration-500">
-                  {[45, 80, 55, 110, 70, 95].map((h, i) => (
-                    <div key={i} style={{ height: `${h}px` }} className="w-10 bg-emerald-600 rounded-t-2xl shadow-lg" />
-                  ))}
-                </div>
-              )}
+
             </div>
           </div>
         </div>

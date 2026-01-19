@@ -1,7 +1,7 @@
 
 import React, { useRef, useState, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Grid } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Grid, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 const Building = ({ position, args, color }: { position: [number, number, number], args: [number, number, number], color: string }) => {
@@ -29,29 +29,60 @@ const Building = ({ position, args, color }: { position: [number, number, number
   );
 };
 
+const OSMModel = () => {
+  const { scene } = useGLTF(import.meta.env.BASE_URL + 'OSM.glb');
+  return <primitive object={scene} scale={[0.05, 0.05, 0.05]} />;
+};
+
+const GBAModel = () => {
+  const { scene } = useGLTF(import.meta.env.BASE_URL + 'GBA.glb');
+  return <primitive object={scene} scale={[0.05, 0.05, 0.05]} />;
+};
+
 const City = ({ mode }: { mode: 'osm' | 'atlas' | 'terrain' }) => {
   const buildings = useMemo(() => {
+    if (mode === 'osm' || mode === 'atlas') return [];
+
     const data = [];
-    const count = mode === 'atlas' ? 80 : 35;
-    const spread = mode === 'atlas' ? 40 : 20;
-    
+    const count = 35;
+    const spread = 20;
+
     for (let i = 0; i < count; i++) {
       const x = (Math.random() - 0.5) * spread;
       const z = (Math.random() - 0.5) * spread;
-      const h = mode === 'atlas' ? Math.random() * 5 + 1 : Math.random() * 10 + 2;
+      const h = Math.random() * 10 + 2;
       const w = Math.random() * 1.8 + 0.6;
       const d = Math.random() * 1.8 + 0.6;
       const y = h / 2;
-      
+
       data.push({
         id: i,
         position: [x, y, z] as [number, number, number],
         args: [w, h, d] as [number, number, number],
-        color: mode === 'atlas' ? '#f0f0f0' : '#ffffff'
+        color: '#ffffff'
       });
     }
     return data;
   }, [mode]);
+
+  if (mode === 'osm' || mode === 'atlas') {
+    return (
+      <group>
+        {mode === 'osm' ? <OSMModel /> : <GBAModel />}
+        <Grid
+          infiniteGrid
+          fadeDistance={50}
+          fadeStrength={3}
+          sectionSize={2}
+          sectionColor="#e2e8f0"
+          sectionThickness={1}
+          cellSize={1}
+          cellColor="#f1f5f9"
+          cellThickness={0.5}
+        />
+      </group>
+    );
+  }
 
   return (
     <group>
@@ -83,7 +114,7 @@ export const InteractiveDemo: React.FC = () => {
           <h3 className="font-bold text-neutral-900 mb-1">Architectural Context</h3>
           <p className="text-xs text-neutral-500 leading-relaxed">High-fidelity geometry generated directly from cloud spatial databases.</p>
         </div>
-        
+
         <div className="flex bg-white/90 backdrop-blur-md p-1 rounded-full border border-neutral-200 shadow-sm self-start">
           <button
             onClick={() => setMode('osm')}
@@ -109,18 +140,18 @@ export const InteractiveDemo: React.FC = () => {
       <Canvas shadows gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault position={[20, 20, 20]} fov={35} />
         <OrbitControls enableDamping dampingFactor={0.05} minDistance={10} maxDistance={60} />
-        
+
         <ambientLight intensity={0.8} />
-        <directionalLight 
-          position={[10, 40, 10]} 
-          intensity={1.2} 
-          castShadow 
+        <directionalLight
+          position={[10, 40, 10]}
+          intensity={1.2}
+          castShadow
           shadow-mapSize={[1024, 1024]}
         />
         <pointLight position={[-10, 20, -10]} intensity={0.5} />
 
         <City mode={mode} />
-        
+
         <fog attach="fog" args={['#fafafa', 30, 80]} />
         <color attach="background" args={['#fafafa']} />
       </Canvas>

@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Docs', path: '/docs', icon: Book },
-    { name: 'GitHub', path: 'https://github.com/metamap-org', icon: Github, external: true },
+    { name: 'GitHub', path: 'https://github.com/karadagi/MetaMAP', icon: Github, external: true },
   ];
 
   return (
@@ -18,7 +18,7 @@ export const Navbar: React.FC = () => {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-2">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center font-bold text-white text-xl">M</div>
+              <img src={import.meta.env.BASE_URL + "metamap.png"} alt="MetaMAP Logo" className="w-8 h-8 rounded-lg" />
               <span className="text-xl font-bold tracking-tight text-neutral-900">MetaMAP</span>
             </Link>
           </div>

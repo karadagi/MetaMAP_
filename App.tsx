@@ -5,7 +5,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { LandingPage } from './pages/LandingPage';
 import { DocsPage } from './pages/DocsPage';
-import { GeminiAssistant } from './components/GeminiAssistant';
+
 
 const App: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
         <Footer />
-        <GeminiAssistant />
+
       </div>
     </HashRouter>
   );
